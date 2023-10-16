@@ -1,11 +1,7 @@
-<script setup>
-import { isMobile } from '@/utils/flexible'
-</script>
+<script setup></script>
 
 <template>
-  <div>
-    {{ isMobile }}
-  </div>
+  <router-view />
 </template>
 
 <style scoped></style>
