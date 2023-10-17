@@ -6,10 +6,19 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    vue(),
-    vueJsx(),
-  ],
+  // 代理
+  server: {
+    proxy: {
+      // 代理所有 /api 的请求，该求情将被代理到 target 中
+      '/api': {
+        // 代理请求之后的请求地址
+        target: 'https://api.imooc-front.lgdsunday.club/',
+        // 跨域
+        changeOrigin: true
+      }
+    }
+  },
+  plugins: [vue(), vueJsx()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
