@@ -55,6 +55,11 @@ watch(currentCategoryIndex, (val) => {
 const onItemClick = (index) => {
   currentCategoryIndex.value = index
 }
+
+const isVisable = ref(false)
+const onShowPopup = () => {
+  isVisable.value = true
+}
 </script>
 
 <template>
@@ -64,7 +69,10 @@ const onItemClick = (index) => {
       class="relative flex overflow-x-auto p-1 text-xs text-zinc-600 overflow-hidden"
     >
       <!-- 汉堡按钮 -->
-      <li class="z-20 fixed top-0 right-[-1px] h-4 px-1 flex items-center bg-white shadow-l-white">
+      <li
+        class="z-20 fixed top-0 right-[-1px] h-4 px-1 flex items-center bg-white shadow-l-white"
+        @click="onShowPopup"
+      >
         <m-svg-icon class="w-1.5 h-1.5" name="hamburger"></m-svg-icon>
       </li>
 
@@ -89,6 +97,10 @@ const onItemClick = (index) => {
         {{ item.name }}
       </li>
     </ul>
+
+    <m-popup v-model="isVisable">
+      <div>我是内容</div>
+    </m-popup>
   </div>
 </template>
 
