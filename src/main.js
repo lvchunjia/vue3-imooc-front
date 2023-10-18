@@ -3,11 +3,13 @@ import 'tailwindcss/tailwind.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import 'virtual:svg-icons-register'
 
 import App from './App.vue'
 import router from './router'
 
 import { useREM } from './utils/flexible.js'
-useREM()
+import mLibs from './libs'
 
-createApp(App).use(createPinia()).use(router).mount('#app')
+useREM()
+createApp(App).use(createPinia()).use(router).use(mLibs).mount('#app')
