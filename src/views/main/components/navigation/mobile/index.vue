@@ -1,6 +1,7 @@
 <script setup>
 import { useScroll } from '@vueuse/core'
 import { onBeforeUpdate, ref, watch } from 'vue'
+import MenuPopup from '@/views/main/components/menu/index.vue'
 
 defineProps({
   data: {
@@ -43,8 +44,13 @@ watch(currentCategoryIndex, (val) => {
   // 为 sliderStyle 设置属性
   sliderStyle.value = {
     // ul 横向滚动位置 + 当前元素的 left 偏移量 - ul-padding
-    transform: `translateX(${ulScrollLeft.value + left - 10 + 'px'})`,
+    transform: `translateX(${ulScrollLeft.value + left - 10}px)`,
     width: width + 'px'
+  }
+  // 点击弹出层时自动滚动到nav-bar选中位置
+  if (isVisable.value) {
+    isVisable.value = false
+    ulTarget.value.scrollLeft = left + ulTarget.value.scrollLeft
   }
 })
 
@@ -99,7 +105,7 @@ const onShowPopup = () => {
     </ul>
 
     <m-popup v-model="isVisable">
-      <div>我是内容</div>
+      <menu-popup :categorys="data" @onItemClick="onItemClick" />
     </m-popup>
   </div>
 </template>
