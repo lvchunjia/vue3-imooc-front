@@ -50,7 +50,7 @@ watch(currentCategoryIndex, (val) => {
   // 点击弹出层时自动滚动到nav-bar选中位置
   if (isVisable.value) {
     isVisable.value = false
-    ulTarget.value.scrollLeft = left + ulTarget.value.scrollLeft
+    ulTarget.value.scrollLeft = left + ulTarget.value.scrollLeft - 10
   }
 })
 
