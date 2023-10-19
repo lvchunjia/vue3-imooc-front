@@ -1,8 +1,8 @@
 <script setup></script>
 
 <template>
-  <div class="header-search">
-    <h2>header-search</h2>
+  <div class="w-full">
+    <m-search />
   </div>
 </template>
 

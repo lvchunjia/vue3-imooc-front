@@ -2,7 +2,7 @@
 
 <template>
   <div class="header-my">
-    <h2>header-my</h2>
+    <h2>my</h2>
   </div>
 </template>
 
