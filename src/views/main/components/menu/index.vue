@@ -1,10 +1,9 @@
 <script setup>
-defineProps({
-  categorys: {
-    type: Array,
-    required: true
-  }
-})
+import { storeToRefs } from 'pinia'
+import { useCategorysStore } from '@/stores/modules/category'
+
+const categorysStore = useCategorysStore()
+const { categorys } = storeToRefs(categorysStore)
 
 defineEmits(['onItemClick'])
 </script>

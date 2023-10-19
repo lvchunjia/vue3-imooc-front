@@ -105,7 +105,7 @@ const onShowPopup = () => {
     </ul>
 
     <m-popup v-model="isVisable">
-      <menu-popup :categorys="data" @onItemClick="onItemClick" />
+      <menu-popup @onItemClick="onItemClick" />
     </m-popup>
   </div>
 </template>

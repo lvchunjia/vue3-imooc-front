@@ -1,24 +1,20 @@
 <script setup>
-import { ref } from 'vue'
-import { isMobile } from '@/utils/flexible.js'
+import { storeToRefs } from 'pinia'
 import mobileNav from './mobile/index.vue'
 import pcNav from './pc/index.vue'
+import { isMobile } from '@/utils/flexible.js'
+import { useCategorysStore } from '@/stores/modules/category'
 
-import { getCategory } from '@/api/category'
-import { ALL_CATEGORY_ITEM } from '@/constants'
+const categorysStore = useCategorysStore()
+const { categorys } = storeToRefs(categorysStore)
+const { getCategoryData } = categorysStore
 
-const categoryData = ref([])
-const getCategoryData = async () => {
-  const { categorys } = await getCategory()
-  categoryData.value = categorys
-  categoryData.value.unshift(ALL_CATEGORY_ITEM)
-}
 getCategoryData()
 </script>
 
 <template>
   <div class="navigation">
-    <mobile-nav v-if="isMobile" :data="categoryData" />
+    <mobile-nav v-if="isMobile" :data="categorys" />
     <pc-nav v-else />
   </div>
 </template>
