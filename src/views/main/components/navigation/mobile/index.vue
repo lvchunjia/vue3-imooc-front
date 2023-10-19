@@ -1,14 +1,12 @@
 <script setup>
-import { useScroll } from '@vueuse/core'
 import { onBeforeUpdate, ref, watch } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useScroll } from '@vueuse/core'
 import MenuPopup from '@/views/main/components/menu/index.vue'
+import { useCategorysStore } from '@/stores/modules/category'
 
-defineProps({
-  data: {
-    type: Array,
-    required: true
-  }
-})
+const categorysStore = useCategorysStore()
+const { categorys } = storeToRefs(categorysStore)
 
 // 滑块位置
 const sliderStyle = ref({
@@ -91,7 +89,7 @@ const onShowPopup = () => {
 
       <!-- category item -->
       <li
-        v-for="(item, index) in data"
+        v-for="(item, index) in categorys"
         :key="item.id"
         :ref="setItemRef"
         @click="onItemClick(index)"
