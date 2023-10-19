@@ -1,8 +1,8 @@
 <script setup></script>
 
 <template>
-  <div class="fixed bottom-10 right-2">
-    <h2>floating</h2>
+  <div class="header-search">
+    <h2>header-search</h2>
   </div>
 </template>
 

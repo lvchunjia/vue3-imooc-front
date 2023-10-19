@@ -1,8 +1,8 @@
 <script setup></script>
 
 <template>
-  <div class="fixed bottom-10 right-2">
-    <h2>floating</h2>
+  <div class="header-my">
+    <h2>header-my</h2>
   </div>
 </template>
 
