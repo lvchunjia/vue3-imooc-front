@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia'
 import mobileNav from './mobile/index.vue'
 import pcNav from './pc/index.vue'
 import { isMobile } from '@/utils/flexible.js'
-import { useCategorysStore } from '@/stores/modules/category'
+import { useCategorysStore } from '@/store/modules/category'
 
 const categorysStore = useCategorysStore()
 const { categorys } = storeToRefs(categorysStore)
