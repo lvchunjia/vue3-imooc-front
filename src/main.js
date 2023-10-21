@@ -9,6 +9,7 @@ import App from './App.vue'
 import router from './router'
 
 import mLibs from './libs'
+import directives from './directives'
 import { useREM } from './utils/flexible.js'
 import useTheme from './utils/theme.js'
 
@@ -18,5 +19,6 @@ const app = createApp(App)
 app.use(router)
 app.use(store)
 app.use(mLibs)
+app.use(directives)
 useTheme()
 app.mount('#app')

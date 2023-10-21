@@ -7,7 +7,9 @@ import FloatingPc from '@/views/layout/components/floating.vue'
 <template>
   <div class="h-screen">
     <header-pc class="h-header"></header-pc>
-    <main-pc class="h-main"></main-pc>
+    <div class="h-main">
+      <main-pc class="h-main"></main-pc>
+    </div>
     <floating-pc class="h-floating"></floating-pc>
   </div>
 </template>
