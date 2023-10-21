@@ -2,17 +2,21 @@
 import { ref } from 'vue'
 import SearchHint from './hint.vue'
 import SearchHistory from './history.vue'
+import SearchTheme from './theme.vue'
 
 import { useSearchStore } from '@/store/modules/search'
+import { useAppStore } from '@/store/modules/app'
 
 const searchStore = useSearchStore()
 const { addHistory } = searchStore
+const appStore = useAppStore()
+const { changeSearchText } = appStore
 
 const inputValue = ref('')
 
 // 搜索的回调事件
 const onSearchHandler = (val) => {
-  inputValue.value = val
+  changeSearchText(val)
   if (val) addHistory(val)
 }
 </script>
@@ -26,6 +30,9 @@ const onSearchHandler = (val) => {
 
         <!-- 最近搜索 -->
         <search-history v-show="!inputValue" @itemClick="onSearchHandler" />
+
+        <!-- 推荐主题 -->
+        <search-theme v-show="!inputValue" />
       </template>
     </m-search>
   </div>

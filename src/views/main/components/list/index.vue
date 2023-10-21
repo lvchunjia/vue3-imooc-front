@@ -1,13 +1,14 @@
 <script setup>
-import { nextTick, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { getPexelsList } from '@/api/pexels'
 import { isMobile } from '@/utils/flexible'
-import { useAppStore } from '@/store/modules/app'
 import ListItem from './item.vue'
 
+import { useAppStore } from '@/store/modules/app'
+
 const appStore = useAppStore()
-const { currentCategory } = storeToRefs(appStore)
+const { currentCategory, searchText } = storeToRefs(appStore)
 
 /**
  * 构建数据请求
@@ -61,6 +62,20 @@ watch(
     resetQuery({
       page: 1,
       categoryId: val.id
+    })
+  }
+)
+
+/**
+ * 监听搜索内容项的变化
+ */
+watch(
+  () => searchText.value,
+  (val) => {
+    // 重置请求参数
+    resetQuery({
+      page: 1,
+      searchText: val
     })
   }
 )

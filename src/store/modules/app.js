@@ -13,7 +13,6 @@ export const useAppStore = defineStore('app', () => {
   const currentCategoryIndex = computed(() =>
     categorys.value.findIndex((item) => item.id === currentCategory.value.id)
   )
-
   /**
    * 切换选中分类
    */
@@ -21,5 +20,20 @@ export const useAppStore = defineStore('app', () => {
     currentCategory.value = category
   }
 
-  return { currentCategory, currentCategoryIndex, changeCurrentCategory }
+  // 搜索的文本
+  const searchText = ref('')
+  /**
+   * 修改 searchText
+   */
+  const changeSearchText = (text) => {
+    searchText.value = text
+  }
+
+  return {
+    currentCategory,
+    currentCategoryIndex,
+    changeCurrentCategory,
+    searchText,
+    changeSearchText
+  }
 })
