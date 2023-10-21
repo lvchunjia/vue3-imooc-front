@@ -1,4 +1,31 @@
-<script setup></script>
+<script setup>
+import { onMounted } from 'vue'
+import { driver } from 'driver.js'
+import 'driver.js/dist/driver.css'
+import steps from './steps'
+
+let driverObj = null
+onMounted(() => {
+  /**
+   * 引导页处理
+   */
+
+  driverObj = new driver({
+    // allowClose: false,
+    doneBtnText: '关闭',
+    nextBtnText: '下一个',
+    prevBtnText: '上一个',
+    steps
+  })
+})
+
+/**
+ * 开始引导
+ */
+const onGuideClick = () => {
+  driverObj.drive()
+}
+</script>
 
 <template>
   <div class="fixed bottom-10 right-2">
@@ -9,7 +36,8 @@
       <m-svg-icon
         name="guide"
         class="w-2 h-2"
-        fillClass="fill-zinc-900 dark:fill-zinc-200 group-hover:fill-main "
+        fillClass="fill-zinc-900 dark:fill-zinc-200 group-hover:fill-main"
+        @click="onGuideClick"
       ></m-svg-icon>
     </div>
 
