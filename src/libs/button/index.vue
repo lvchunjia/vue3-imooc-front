@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import MSvgIcon from '@/libs/svg-icon/index.vue'
 import { typeEnum, sizeEnum, EMITS_CLICK } from './constants'
 
 const props = defineProps({

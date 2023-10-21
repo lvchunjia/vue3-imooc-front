@@ -1,6 +1,7 @@
 <script setup>
 import { storeToRefs } from 'pinia'
 import { useSearchStore } from '@/store/modules/search'
+import { confirm } from '@/libs'
 
 const searchStore = useSearchStore()
 const { historys } = storeToRefs(searchStore)
@@ -12,7 +13,11 @@ const emits = defineEmits(['itemClick'])
  * 删除所有记录
  */
 const onDeleteAllClick = () => {
-  deleteAllHistory()
+  confirm('要删除所有历史记录吗？')
+    .then(() => {
+      deleteAllHistory()
+    })
+    .catch(() => {})
 }
 
 /**
