@@ -2,9 +2,13 @@
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useCategorysStore } from '@/store/modules/category'
+import { useAppStore } from '@/store/modules/app'
 
 const categorysStore = useCategorysStore()
 const { categorys } = storeToRefs(categorysStore)
+const appStore = useAppStore()
+const { currentCategoryIndex } = storeToRefs(appStore)
+const { changeCurrentCategory } = appStore
 
 /**
  * 状态切换处理
@@ -17,9 +21,8 @@ const triggerState = () => {
 /**
  * 选中状态处理
  */
-const currentCategoryIndex = ref(0)
-const onItemClick = (index) => {
-  currentCategoryIndex.value = index
+const onItemClick = (item) => {
+  changeCurrentCategory(item)
 }
 </script>
 
@@ -49,7 +52,7 @@ const onItemClick = (index) => {
           'text-zinc-900 dark:text-zinc-300 bg-zinc-200 dark:bg-zinc-900':
             currentCategoryIndex === index
         }"
-        @click="onItemClick(index)"
+        @click="onItemClick(item)"
         class="shrink-0 px-1.5 py-0 z-10 duration-200 last:mr-4 text-zinc-900 dark:text-zinc-500 dark:hover:text-zinc-300 text-base font-bold h-4 leading-4 cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-900 rounded mr-1 mb-1"
       >
         {{ item.name }}

@@ -1,8 +1,13 @@
 <script setup>
-import { ref } from 'vue'
+import { nextTick, ref, watch } from 'vue'
+import { storeToRefs } from 'pinia'
 import { getPexelsList } from '@/api/pexels'
 import { isMobile } from '@/utils/flexible'
+import { useAppStore } from '@/store/modules/app'
 import ListItem from './item.vue'
+
+const appStore = useAppStore()
+const { currentCategory } = storeToRefs(appStore)
 
 /**
  * 构建数据请求
@@ -34,13 +39,40 @@ const getPexelsData = async () => {
   if (pexelsList.value.length === res.total) {
     isFinished.value = true
   }
+
   // 修改 loading 标记
   isLoading.value = false
 }
+
+/**
+ * 通过此方法修改 query 请求参数，重新发起请求
+ */
+const resetQuery = (newQuery) => {
+  query = { ...query, ...newQuery }
+  // 重置状态
+  isFinished.value = false
+  pexelsList.value = []
+}
+
+watch(
+  () => currentCategory.value,
+  (val) => {
+    // 重置请求参数
+    resetQuery({
+      page: 1,
+      categoryId: val.id
+    })
+  }
+)
 </script>
 
 <template>
-  <m-infinite-list v-model="isLoading" :isFinished="isFinished" @onLoad="getPexelsData">
+  <m-infinite-list
+    ref="mInfiniteListRef"
+    v-model="isLoading"
+    :isFinished="isFinished"
+    @onLoad="getPexelsData"
+  >
     <m-waterfall
       :data="pexelsList"
       :nodeKey="'id'"

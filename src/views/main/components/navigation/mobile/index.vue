@@ -4,17 +4,19 @@ import { storeToRefs } from 'pinia'
 import { useScroll } from '@vueuse/core'
 import MenuPopup from '@/views/main/components/menu/index.vue'
 import { useCategorysStore } from '@/store/modules/category'
+import { useAppStore } from '@/store/modules/app'
 
 const categorysStore = useCategorysStore()
 const { categorys } = storeToRefs(categorysStore)
+const appStore = useAppStore()
+const { currentCategoryIndex } = storeToRefs(appStore)
+const { changeCurrentCategory } = appStore
 
 // 滑块位置
 const sliderStyle = ref({
   transform: 'translateX(0px)',
   width: '52px'
 })
-// 选中的 item 下标
-const currentCategoryIndex = ref(0)
 
 /**
  * 获取填充的所有 item 元素
@@ -36,28 +38,31 @@ onBeforeUpdate(() => {
 // 获取ul元素
 const ulTarget = ref(null)
 const { x: ulScrollLeft } = useScroll(ulTarget)
-watch(currentCategoryIndex, (val) => {
-  // 获取选中元素的 left、width
-  const { left, width } = itemRefs[val].getBoundingClientRect()
-  // 为 sliderStyle 设置属性
-  sliderStyle.value = {
-    // ul 横向滚动位置 + 当前元素的 left 偏移量 - ul-padding
-    transform: `translateX(${ulScrollLeft.value + left - 10}px)`,
-    width: width + 'px'
+watch(
+  () => currentCategoryIndex.value,
+  (val) => {
+    // 获取选中元素的 left、width
+    const { left, width } = itemRefs[val].getBoundingClientRect()
+    // 为 sliderStyle 设置属性
+    sliderStyle.value = {
+      // ul 横向滚动位置 + 当前元素的 left 偏移量 - ul-padding
+      transform: `translateX(${ulScrollLeft.value + left - 10}px)`,
+      width: width + 'px'
+    }
+    // 点击弹出层时自动滚动到nav-bar选中位置
+    if (isVisable.value) {
+      isVisable.value = false
+      ulTarget.value.scrollLeft = left + ulTarget.value.scrollLeft - 10
+    }
   }
-  // 点击弹出层时自动滚动到nav-bar选中位置
-  if (isVisable.value) {
-    isVisable.value = false
-    ulTarget.value.scrollLeft = left + ulTarget.value.scrollLeft - 10
-  }
-})
+)
 
 /**
  * item 点击事件
  * @param {*} index
  */
-const onItemClick = (index) => {
-  currentCategoryIndex.value = index
+const onItemClick = (item) => {
+  changeCurrentCategory(item)
 }
 
 const isVisable = ref(false)
@@ -92,7 +97,7 @@ const onShowPopup = () => {
         v-for="(item, index) in categorys"
         :key="item.id"
         :ref="setItemRef"
-        @click="onItemClick(index)"
+        @click="onItemClick(item)"
         :class="{
           'text-zinc-100 ': currentCategoryIndex === index
         }"
