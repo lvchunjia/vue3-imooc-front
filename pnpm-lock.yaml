@@ -58,6 +58,9 @@ devDependencies:
   sass:
     specifier: ^1.69.3
     version: registry.npmmirror.com/sass@1.69.3
+  tailwind-scrollbar:
+    specifier: ^3.0.5
+    version: registry.npmmirror.com/tailwind-scrollbar@3.0.5(tailwindcss@3.3.3)
   tailwindcss:
     specifier: ^3.3.3
     version: registry.npmmirror.com/tailwindcss@3.3.3
@@ -4217,6 +4220,18 @@ packages:
     dependencies:
       '@pkgr/utils': registry.npmmirror.com/@pkgr/utils@2.4.2
       tslib: registry.npmmirror.com/tslib@2.6.2
+    dev: true
+
+  registry.npmmirror.com/tailwind-scrollbar@3.0.5(tailwindcss@3.3.3):
+    resolution: {integrity: sha512-0ZwxTivevqq9BY9fRP9zDjHl7Tu+J5giBGbln+0O1R/7nHtBUKnjQcA1aTIhK7Oyjp6Uc/Dj6/dn8Dq58k5Uww==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/tailwind-scrollbar/-/tailwind-scrollbar-3.0.5.tgz}
+    id: registry.npmmirror.com/tailwind-scrollbar/3.0.5
+    name: tailwind-scrollbar
+    version: 3.0.5
+    engines: {node: '>=12.13.0'}
+    peerDependencies:
+      tailwindcss: 3.x
+    dependencies:
+      tailwindcss: registry.npmmirror.com/tailwindcss@3.3.3
     dev: true
 
   registry.npmmirror.com/tailwindcss@3.3.3:
