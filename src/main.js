@@ -16,8 +16,8 @@ import useTheme from './utils/theme.js'
 useREM()
 
 const app = createApp(App)
-app.use(router)
 app.use(store)
+app.use(router)
 app.use(directives)
 app.use(mLibs)
 useTheme()

@@ -26,6 +26,9 @@ export const useUserStore = defineStore(
 
     // 用户信息
     const userInfo = ref({})
+    const setUserInfo = (data) => {
+      userInfo.value = data
+    }
     /**
      * 获取用户信息
      */
@@ -64,7 +67,7 @@ export const useUserStore = defineStore(
       })
     }
 
-    return { token, login, userInfo, logout, register }
+    return { token, login, userInfo, setUserInfo, logout, register }
   },
   {
     persist: true
