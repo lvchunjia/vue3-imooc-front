@@ -1,16 +1,23 @@
 <script setup>
 import { onMounted, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useUserStore } from '@/store/modules/user'
 import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.css'
+import { putProfile } from '@/api/sys'
+import { message } from '@/libs'
 import { isMobile } from '@/utils/flexible'
+import { getOSSClient } from '@/utils/sts'
 
+const userStore = useUserStore()
+const { userInfo } = storeToRefs(userStore)
+const { setUserInfo } = userStore
 defineProps({
   blob: {
     type: String,
     required: true
   }
 })
-
 const emits = defineEmits(['close'])
 
 // 移动端配置对象
@@ -56,8 +63,50 @@ const onConfirmClick = () => {
   // 获取裁剪后的图片
   cropper.getCroppedCanvas().toBlob((blob) => {
     // 裁剪后的 blob 地址
-    console.log(URL.createObjectURL(blob))
+    putObjectToOSS(blob)
   })
+}
+
+/**
+ * 进行 OSS 上传
+ */
+let ossClient = null
+const putObjectToOSS = async (file) => {
+  if (!ossClient) {
+    ossClient = await getOSSClient()
+  }
+  try {
+    // 因为当前凭证只具备 images 文件夹下的访问权限，所以图片需要上传到 images/xxx.xx 。否则你将得到一个 《AccessDeniedError: You have no right to access this object because of bucket acl.》 的错误
+    const fileTypeArr = file.type.split('/')
+    const fileName = `${userInfo.value.username}/${Date.now()}.${
+      fileTypeArr[fileTypeArr.length - 1]
+    }`
+    // 文件存放路径，文件
+    const res = await ossClient.put(`images/${fileName}`, file)
+    // 通知服务器
+    onChangeProfile(res.url)
+  } catch (e) {
+    message('error', e)
+  }
+}
+
+/**
+ * 上传新头像到服务器
+ */
+const onChangeProfile = async (avatar) => {
+  // 更新本地数据
+  setUserInfo({
+    ...userInfo.value,
+    avatar
+  })
+  // 更新服务器数据
+  await putProfile(userInfo.value)
+  // 通知用户
+  message('success', '用户头像修改成功')
+  // 关闭 loading
+  loading.value = false
+  // 关闭 dialog
+  close()
 }
 
 /**
