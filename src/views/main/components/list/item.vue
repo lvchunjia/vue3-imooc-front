@@ -43,25 +43,35 @@ const { enter: onImgFullScreen } = useFullscreen(imgTarget)
 const onToPinsClick = () => {
   emits('click', {
     id: props.data.id,
-    location: imgContainerCenter.value
+    location: imgContainerCenter()
   })
 }
 
 /**
  * pins 跳转处理，记录图片的中心点（X|Y位置 + 宽|高的一半）
+ * issue：https://coding.imooc.com/learn/questiondetail/270316.html
+ * 查看 vueuse 的源代码（https://github.com/vueuse/vueuse/blob/main/packages/core/useElementBounding/index.ts）发现 useElementBounding 方法是仅在 window 的 scroll 时被触发，所以在移动端状态下会导致 useElementBounding 的返回值不再具备响应性。从而计算失败。
+ * 所以修改 imgContainerCenter 为一个方法，利用 el.getBoundingClientRect 方法获取动态的 x、y、width、height , 从而进行正确的计算。
  */
-const {
-  x: imgContainerX,
-  y: imgContainerY,
-  width: imgContainerWidth,
-  height: imgContainerHeight
-} = useElementBounding(imgTarget)
-const imgContainerCenter = computed(() => {
+// const {
+//   x: imgContainerX,
+//   y: imgContainerY,
+//   width: imgContainerWidth,
+//   height: imgContainerHeight
+// } = useElementBounding(imgTarget)
+const imgContainerCenter = () => {
+  const {
+    x: imgContainerX,
+    y: imgContainerY,
+    width: imgContainerWidth,
+    height: imgContainerHeight
+  } = imgTarget.value.getBoundingClientRect()
+
   return {
-    translateX: parseInt(imgContainerX.value + imgContainerWidth.value / 2),
-    translateY: parseInt(imgContainerY.value + imgContainerHeight.value / 2)
+    translateX: parseInt(imgContainerX + imgContainerWidth / 2),
+    translateY: parseInt(imgContainerY + imgContainerHeight / 2)
   }
-})
+}
 </script>
 
 <template>

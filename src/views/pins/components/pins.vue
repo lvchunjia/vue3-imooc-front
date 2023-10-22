@@ -1,8 +1,12 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAppStore } from '@/store/modules/app'
 import { getPexelsFromId } from '@/api/pexels'
 import { isMobile } from '@/utils/flexible'
+
+const appStore = useAppStore()
+const { changeRouterType } = appStore
 
 const props = defineProps({
   id: {
@@ -26,6 +30,7 @@ getPexelData()
  */
 const router = useRouter()
 const onPop = () => {
+  changeRouterType('back')
   router.back()
 }
 </script>

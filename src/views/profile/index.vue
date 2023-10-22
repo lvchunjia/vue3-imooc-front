@@ -3,6 +3,7 @@ import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/store/modules/user'
+import { useAppStore } from '@/store/modules/app'
 import { isMobile } from '@/utils/flexible'
 import { confirm, message } from '@/libs'
 import { putProfile } from '@/api/sys'
@@ -11,6 +12,8 @@ import ChangeAvatar from './components/change-avatar.vue'
 const userStore = useUserStore()
 const { logout, setUserInfo } = userStore
 const { userInfo } = storeToRefs(userStore)
+const appStore = useAppStore()
+const { changeRouterType } = appStore
 const router = useRouter()
 
 /**
@@ -71,6 +74,7 @@ const onChangeProfile = async () => {
  * 移动端后退处理
  */
 const onNavbarLeftClick = () => {
+  changeRouterType('back')
   router.back()
 }
 

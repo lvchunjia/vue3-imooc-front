@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Form as VeeForm, Field as VeeField, ErrorMessage as VeeErrorMessage } from 'vee-validate'
 import { useUserStore } from '@/store/modules/user'
+import { useAppStore } from '@/store/modules/app'
 import LoginHeader from '../components/header.vue'
 import sliderCaptchaVue from './slider-captcha.vue'
 import { validateUsername, validatePassword } from '../validate'
@@ -10,6 +11,8 @@ import { LOGIN_TYPE_USERNAME } from '@/constants'
 
 const router = useRouter()
 const { login } = useUserStore()
+const appStore = useAppStore()
+const { changeRouterType } = appStore
 
 /**
  * 登录触发
@@ -59,6 +62,7 @@ const onLogin = async () => {
  * 去注册
  */
 const onToReg = () => {
+  changeRouterType('push')
   router.push('/register')
 }
 </script>

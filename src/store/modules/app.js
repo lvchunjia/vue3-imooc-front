@@ -2,6 +2,7 @@ import { ref, computed } from 'vue'
 import { defineStore, storeToRefs } from 'pinia'
 import { ALL_CATEGORY_ITEM } from '@/constants'
 import { useCategorysStore } from '@/store/modules/category'
+import { isMobile } from '@/utils/flexible'
 
 export const useAppStore = defineStore('app', () => {
   // 当前选中的分类
@@ -29,11 +30,23 @@ export const useAppStore = defineStore('app', () => {
     searchText.value = text
   }
 
+  // 路由跳转类型
+  const routersType = ref('none')
+  const routerType = computed(() => (isMobile ? routersType.value : 'none'))
+  /**
+   * 修改 routerType
+   */
+  const changeRouterType = (newType) => {
+    routersType.value = newType
+  }
+
   return {
     currentCategory,
     currentCategoryIndex,
     changeCurrentCategory,
     searchText,
-    changeSearchText
+    changeSearchText,
+    routerType,
+    changeRouterType
   }
 })

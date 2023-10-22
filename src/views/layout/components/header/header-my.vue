@@ -2,11 +2,14 @@
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/store/modules/user'
+import { useAppStore } from '@/store/modules/app'
 import { confirm } from '@/libs'
 
 const userStore = useUserStore()
 const { token, userInfo } = storeToRefs(userStore)
 const { logout } = userStore
+const appStore = useAppStore()
+const { changeRouterType } = appStore
 
 // 构建 menu 数据源
 const menuArr = [
@@ -33,6 +36,7 @@ const menuArr = [
 // 进入登录
 const router = useRouter()
 const onToLogin = () => {
+  changeRouterType('push')
   router.push('/login')
 }
 
@@ -42,6 +46,7 @@ const onToLogin = () => {
 const onItemClick = (path) => {
   // 有路径则进行路径跳转
   if (path) {
+    changeRouterType('push')
     router.push(path)
     return
   }
