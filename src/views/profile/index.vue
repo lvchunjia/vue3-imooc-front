@@ -1,11 +1,12 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/store/modules/user'
 import { isMobile } from '@/utils/flexible'
 import { confirm, message } from '@/libs'
 import { putProfile } from '@/api/sys'
+import ChangeAvatar from './components/change-avatar.vue'
 
 const userStore = useUserStore()
 const { logout, setUserInfo } = userStore
@@ -43,6 +44,16 @@ const onSelectImgHandler = () => {
   // 展示 Dialog
   isDialogVisible.value = true
 }
+
+/**
+ * 监听 dialog 关闭
+ */
+watch(isDialogVisible, (val) => {
+  if (!val) {
+    // 防止 change 不重复触发
+    inputFileTarget.value.value = null
+  }
+})
 
 /**
  * 修改个人信息
@@ -176,9 +187,14 @@ const onLogoutClick = () => {
       </div>
     </div>
 
-    <m-dialog title="裁剪头像" v-model="isDialogVisible">
-      <img :src="currentBolb" alt="" srcset="" />
+    <!-- PC 端 -->
+    <m-dialog v-if="!isMobile" v-model="isDialogVisible">
+      <change-avatar :blob="currentBolb" @close="isDialogVisible = false"></change-avatar>
     </m-dialog>
+    <!-- 移动端：在展示时指定高度 -->
+    <m-popup v-else :class="{ 'h-screen': isDialogVisible }" v-model="isDialogVisible">
+      <change-avatar :blob="currentBolb" @close="isDialogVisible = false"></change-avatar>
+    </m-popup>
   </div>
 </template>
 
