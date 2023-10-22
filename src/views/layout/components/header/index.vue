@@ -4,7 +4,7 @@ import HeaderTheme from './header-theme.vue'
 import HeaderMy from './header-my.vue'
 import { useRouter } from 'vue-router'
 
-const router = useRouter
+const router = useRouter()
 const onToHome = () => {
   router.push('/')
 }
