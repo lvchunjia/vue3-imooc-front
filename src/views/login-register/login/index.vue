@@ -1,9 +1,15 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { Form as VeeForm, Field as VeeField, ErrorMessage as VeeErrorMessage } from 'vee-validate'
+import { useUserStore } from '@/store/modules/user'
 import LoginHeader from '../components/header.vue'
 import sliderCaptchaVue from './slider-captcha.vue'
 import { validateUsername, validatePassword } from '../validate'
+import { LOGIN_TYPE_USERNAME } from '@/constants'
+
+const router = useRouter()
+const { login } = useUserStore()
 
 /**
  * 登录触发
@@ -21,7 +27,32 @@ const isSliderCaptchaVisible = ref(false)
 const onCaptchaSuccess = async () => {
   isSliderCaptchaVisible.value = false
   // 登录操作
-  console.log('执行登录操作')
+  onLogin()
+}
+
+// 登录时的 loading
+const loading = ref(false)
+// 用户输入的用户名和密码
+const loginForm = ref({
+  username: '',
+  password: ''
+})
+
+/**
+ * 用户登录行为
+ */
+const onLogin = async () => {
+  loading.value = true
+  // 执行登录操作
+  try {
+    await login({
+      ...loginForm.value,
+      loginType: LOGIN_TYPE_USERNAME
+    })
+  } finally {
+    loading.value = false
+  }
+  router.push('/')
 }
 </script>
 
@@ -41,6 +72,7 @@ const onCaptchaSuccess = async () => {
       <!-- 表单 -->
       <vee-form @submit="onLoginHandler">
         <vee-field
+          v-model="loginForm.username"
           :rules="validateUsername"
           name="username"
           type="text"
@@ -51,6 +83,7 @@ const onCaptchaSuccess = async () => {
         <vee-error-message name="username" class="text-sm text-red-600 block mt-0.5 text-left" />
 
         <vee-field
+          v-model="loginForm.password"
           :rules="validatePassword"
           name="password"
           type="password"
@@ -68,7 +101,11 @@ const onCaptchaSuccess = async () => {
           </a>
         </div>
 
-        <m-button :isActiveAnim="false" class="w-full dark:bg-zinc-900 xl:dark:bg-zinc-800">
+        <m-button
+          :loading="loading"
+          :isActiveAnim="false"
+          class="w-full dark:bg-zinc-900 xl:dark:bg-zinc-800"
+        >
           登录
         </m-button>
       </vee-form>

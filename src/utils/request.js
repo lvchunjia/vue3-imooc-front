@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { storeToRefs } from 'pinia'
+import { useUserStore } from '@/store/modules/user'
 
 const service = axios.create({
   baseURL: import.meta.env.VITE_BASE_API,
@@ -9,6 +11,12 @@ const service = axios.create({
 service.interceptors.request.use((config) => {
   // 添加 icode
   config.headers.icode = '821EEDAC4EA3EDC5'
+  const userStore = useUserStore()
+  const { token } = storeToRefs(userStore)
+  if (token.value) {
+    // 如果token存在 注入token
+    config.headers.Authorization = `Bearer ${token.value}`
+  }
   // 必须返回 config
   return config
 })

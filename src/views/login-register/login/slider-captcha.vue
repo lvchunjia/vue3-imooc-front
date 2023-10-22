@@ -18,7 +18,7 @@ onMounted(() => {
       })
 
       if (res) {
-        emits('close')
+        emits('success')
       }
     },
     // 用户拼图失败之后的回调
@@ -43,7 +43,7 @@ const onReset = () => {
  * 关闭
  */
 const onClose = () => {
-  emits('success')
+  emits('close')
 }
 </script>
 

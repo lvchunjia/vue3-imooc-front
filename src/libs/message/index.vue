@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
+import MSvgIcon from '@/libs/svg-icon/index.vue'
 import { styles, typeEnum } from './constants'
 
 const props = defineProps({
