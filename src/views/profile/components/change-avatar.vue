@@ -1,4 +1,7 @@
 <script setup>
+import { onMounted, ref } from 'vue'
+import Cropper from 'cropperjs'
+import 'cropperjs/dist/cropper.css'
 import { isMobile } from '@/utils/flexible'
 
 defineProps({
@@ -10,10 +13,52 @@ defineProps({
 
 const emits = defineEmits(['close'])
 
+// 移动端配置对象
+const mobileOptions = {
+  // 将裁剪框限制在画布的大小
+  viewMode: 1,
+  // 移动画布，裁剪框不动
+  dragMode: 'move',
+  // 裁剪框固定纵横比：1:1
+  aspectRatio: 1,
+  // 裁剪框不可移动
+  cropBoxMovable: false,
+  // 不可调整裁剪框大小
+  cropBoxResizable: false
+}
+// PC 端配置对象
+const pcOptions = {
+  // 裁剪框固定纵横比：1:1
+  aspectRatio: 1
+}
+
+/**
+ * 图片裁剪处理
+ */
+const imageTarget = ref(null)
+let cropper = null
+onMounted(() => {
+  /**
+   * 接收两个参数：
+   * 1. 需要裁剪的图片 DOM
+   * 2. options 配置对象
+   */
+  cropper = new Cropper(imageTarget.value, isMobile.value ? mobileOptions : pcOptions)
+})
+
 /**
  * 确定按钮点击事件
  */
-const onConfirmClick = () => {}
+const loading = ref(false)
+const onConfirmClick = () => {
+  // 开启 loading
+  loading.value = true
+  // 获取裁剪后的图片
+  cropper.getCroppedCanvas().toBlob((blob) => {
+    // 裁剪后的 blob 地址
+    console.log(URL.createObjectURL(blob))
+  })
+}
 
 /**
  * 关闭事件
@@ -35,7 +80,12 @@ const close = () => {
 
     <img class="" ref="imageTarget" :src="blob" />
 
-    <m-button :isActiveAnim="false" class="mt-4 w-[80%] xl:w-1/2" @click="onConfirmClick">
+    <m-button
+      :loading="loading"
+      :isActiveAnim="false"
+      class="mt-4 w-[80%] xl:w-1/2"
+      @click="onConfirmClick"
+    >
       确定
     </m-button>
   </div>
