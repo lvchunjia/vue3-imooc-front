@@ -17,6 +17,9 @@ dependencies:
   file-saver:
     specifier: ^2.0.5
     version: registry.npmmirror.com/file-saver@2.0.5
+  gsap:
+    specifier: ^3.12.2
+    version: registry.npmmirror.com/gsap@3.12.2
   pinia:
     specifier: ^2.1.6
     version: registry.npmmirror.com/pinia@2.1.6(vue@3.3.4)
@@ -2476,6 +2479,12 @@ packages:
     name: graphemer
     version: 1.4.0
     dev: true
+
+  registry.npmmirror.com/gsap@3.12.2:
+    resolution: {integrity: sha512-EkYnpG8qHgYBFAwsgsGEqvT1WUidX0tt/ijepx7z8EUJHElykg91RvW1XbkT59T0gZzzszOpjQv7SE41XuIXyQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/gsap/-/gsap-3.12.2.tgz}
+    name: gsap
+    version: 3.12.2
+    dev: false
 
   registry.npmmirror.com/has-ansi@2.0.0:
     resolution: {integrity: sha512-C8vBJ8DwUCx19vhm7urhTuUsr4/IyP6l4VzNQDv+ryHQObW3TTTp9yB68WpYgRe2bbaGuZ/se74IqFeVnMnLZg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/has-ansi/-/has-ansi-2.0.0.tgz}

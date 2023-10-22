@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue'
-import { useFullscreen } from '@vueuse/core'
+import { computed, ref } from 'vue'
+import { useElementBounding, useFullscreen } from '@vueuse/core'
 import { saveAs } from 'file-saver'
 import { message } from '@/libs'
 import { randomRGB } from '@/utils/color'
@@ -14,6 +14,7 @@ const props = defineProps({
     type: Number
   }
 })
+const emits = defineEmits(['click'])
 
 /**
  * 下载按钮点击事件
@@ -35,6 +36,32 @@ const onDownload = () => {
  */
 const imgTarget = ref(null)
 const { enter: onImgFullScreen } = useFullscreen(imgTarget)
+
+/**
+ * 进入详情点击事件
+ */
+const onToPinsClick = () => {
+  emits('click', {
+    id: props.data.id,
+    location: imgContainerCenter.value
+  })
+}
+
+/**
+ * pins 跳转处理，记录图片的中心点（X|Y位置 + 宽|高的一半）
+ */
+const {
+  x: imgContainerX,
+  y: imgContainerY,
+  width: imgContainerWidth,
+  height: imgContainerHeight
+} = useElementBounding(imgTarget)
+const imgContainerCenter = computed(() => {
+  return {
+    translateX: parseInt(imgContainerX.value + imgContainerWidth.value / 2),
+    translateY: parseInt(imgContainerY.value + imgContainerHeight.value / 2)
+  }
+})
 </script>
 
 <template>
@@ -44,6 +71,7 @@ const { enter: onImgFullScreen } = useFullscreen(imgTarget)
         backgroundColor: randomRGB()
       }"
       class="relative w-full rounded cursor-zoom-in group"
+      @click="onToPinsClick"
     >
       <!-- 图片-->
       <img
