@@ -2,9 +2,11 @@
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/store/modules/user'
+import { confirm } from '@/libs'
 
 const userStore = useUserStore()
 const { token, userInfo } = storeToRefs(userStore)
+const { logout } = userStore
 
 // 构建 menu 数据源
 const menuArr = [
@@ -32,6 +34,24 @@ const menuArr = [
 const router = useRouter()
 const onToLogin = () => {
   router.push('/login')
+}
+
+/**
+ * menu Item 点击事件
+ */
+const onItemClick = (path) => {
+  // 有路径则进行路径跳转
+  if (path) {
+    router.push(path)
+    return
+  }
+  // 无路径则为退出登录
+  confirm('您确定要退出登录吗？')
+    .then(() => {
+      // 退出登录不存在跳转路径
+      logout()
+    })
+    .catch(() => {})
 }
 </script>
 
@@ -71,6 +91,7 @@ const onToLogin = () => {
         class="flex items-center p-1 cursor-pointer rounded hover:bg-zinc-100/60 dark:hover:bg-zinc-80"
         v-for="item in menuArr"
         :key="item.id"
+        @click="onItemClick(item.path)"
       >
         <m-svg-icon
           :name="item.icon"

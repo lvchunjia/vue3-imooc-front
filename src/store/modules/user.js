@@ -42,7 +42,17 @@ export const useUserStore = defineStore(
       )
     }
 
-    return { token, login, userInfo }
+    /**
+     * 退出登录
+     */
+    const logout = () => {
+      token.value = ''
+      userInfo.value = {}
+      // 退出登录之后，刷新下页面
+      location.reload()
+    }
+
+    return { token, login, userInfo, logout }
   },
   {
     persist: true
