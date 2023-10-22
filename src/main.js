@@ -12,6 +12,7 @@ import mLibs from './libs'
 import directives from './directives'
 import { useREM } from './utils/flexible.js'
 import useTheme from './utils/theme.js'
+import './utils/permission.js'
 
 useREM()
 
