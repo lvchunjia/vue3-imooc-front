@@ -1,5 +1,14 @@
 <script setup>
+import { Form as VeeForm, Field as VeeField, ErrorMessage as VeeErrorMessage } from 'vee-validate'
 import LoginHeader from '../components/header.vue'
+import { validateUsername, validatePassword } from '../validate'
+
+/**
+ * 登录触发
+ */
+const onLoginHandler = () => {
+  console.log('触发登录')
+}
 </script>
 
 <template>
@@ -16,22 +25,28 @@ import LoginHeader from '../components/header.vue'
       </h3>
 
       <!-- 表单 -->
-      <form>
-        <input
+      <vee-form @submit="onLoginHandler">
+        <vee-field
+          :rules="validateUsername"
           name="username"
           type="text"
           placeholder="用户名"
           autocomplete="on"
           class="dark:bg-zinc-800 dark:text-zinc-400 border-b-zinc-400 border-b-[1px] w-full outline-0 pb-1 px-1 text-base focus:border-b-main dark:focus:border-b-zinc-200 xl:dark:bg-zinc-900"
         />
+        <vee-error-message class="text-sm text-red-600 block mt-0.5 text-left" name="username">
+        </vee-error-message>
 
-        <input
+        <vee-field
+          :rules="validatePassword"
           name="password"
           type="password"
           placeholder="密码"
           autocomplete="on"
           class="dark:bg-zinc-800 dark:text-zinc-400 border-b-zinc-400 border-b-[1px] w-full outline-0 pb-1 px-1 text-base focus:border-b-main dark:focus:border-b-zinc-200 xl:dark:bg-zinc-900"
         />
+        <vee-error-message class="text-sm text-red-600 block mt-0.5 text-left" name="password">
+        </vee-error-message>
 
         <div class="pt-1 pb-3 leading-[0px] text-right">
           <a
@@ -41,8 +56,10 @@ import LoginHeader from '../components/header.vue'
           </a>
         </div>
 
-        <m-button class="w-full dark:bg-zinc-900 xl:dark:bg-zinc-800"> 登录 </m-button>
-      </form>
+        <m-button :isActiveAnim="false" class="w-full dark:bg-zinc-900 xl:dark:bg-zinc-800">
+          登录
+        </m-button>
+      </vee-form>
 
       <div class="flex justify-around mt-4">
         <!-- QQ -->
