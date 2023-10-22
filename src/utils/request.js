@@ -2,8 +2,6 @@ import axios from 'axios'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/store/modules/user'
 
-const userStore = useUserStore()
-
 const service = axios.create({
   baseURL: import.meta.env.VITE_BASE_API,
   timeout: 5000
@@ -13,7 +11,7 @@ const service = axios.create({
 service.interceptors.request.use((config) => {
   // 添加 icode
   config.headers.icode = '821EEDAC4EA3EDC5'
-
+  const userStore = useUserStore()
   const { token } = storeToRefs(userStore)
   if (token.value) {
     // 如果token存在 注入token
@@ -38,6 +36,7 @@ service.interceptors.response.use(
   (error) => {
     // 处理 token 超时问题
     if (error.response && error.response.data && error.response.data.code === 401) {
+      const userStore = useUserStore()
       const { logout } = userStore
       // TODO: token超时
       logout()

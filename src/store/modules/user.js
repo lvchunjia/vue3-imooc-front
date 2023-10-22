@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import md5 from 'md5'
-import { loginUser, getProfile } from '@/api/sys'
+import { loginUser, getProfile, registerUser } from '@/api/sys'
 import { message } from '@/libs'
 
 export const useUserStore = defineStore(
@@ -52,7 +52,19 @@ export const useUserStore = defineStore(
       location.reload()
     }
 
-    return { token, login, userInfo, logout }
+    /**
+     * 注册
+     */
+    const register = async (payload) => {
+      const { password } = payload
+      // 注册
+      return await registerUser({
+        ...payload,
+        password: password ? md5(password) : ''
+      })
+    }
+
+    return { token, login, userInfo, logout, register }
   },
   {
     persist: true
