@@ -47,3 +47,7 @@ export const LOGIN_TYPE_USERNAME = 'username'
 // STS 上传数据
 export const REGION = 'oss-cn-beijing'
 export const BUCKET = 'imooc-front'
+
+// 登陆方式
+export const LOGIN_TYPE_OAUTH_NO_REGISTER_CODE = 204
+export const LOGIN_TYPE_QQ = 'QQ'

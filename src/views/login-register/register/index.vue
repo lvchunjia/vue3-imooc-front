@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/modules/user'
 import {
   Form as VeeForm,
@@ -17,6 +17,7 @@ import { LOGIN_TYPE_USERNAME } from '@/constants'
  */
 defineRule('validateConfirmPassword', validateConfirmPassword)
 const router = useRouter()
+const route = useRoute()
 const { login, register } = useUserStore()
 
 // 数据源
@@ -39,7 +40,7 @@ const onRegister = async () => {
       password: regForm.value.password
     }
     // 触发注册
-    await register(payload)
+    await register({ ...payload, ...route.query })
     // 注册成功，触发登录
     await login({
       ...payload,
