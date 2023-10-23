@@ -5,6 +5,7 @@ import { useAppStore } from '@/store/modules/app'
 import { getVipPayList } from '@/api/pay'
 import { isMobile } from '@/utils/flexible'
 import PayMenuItem from './components/pay-menu-item.vue'
+import PayMent from './components/payment/index.vue'
 
 const appStore = useAppStore()
 const { changeRouterType } = appStore
@@ -61,7 +62,9 @@ const onChangeCurrentPay = (item) => {
           ></pay-menu-item>
         </div>
         <p class="mt-1 text-sm text-zinc-500">{{ currentPayData.desc }}</p>
+
         <!-- 支付 -->
+        <pay-ment />
       </div>
     </div>
   </div>

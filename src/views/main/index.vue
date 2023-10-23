@@ -21,7 +21,7 @@ defineOptions({
 
 const onVipClick = () => {
   changeRouterType('push')
-  router.push('/vip')
+  router.push('/member')
 }
 
 const onMyClick = () => {
