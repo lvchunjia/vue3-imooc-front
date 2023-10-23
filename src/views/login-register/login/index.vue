@@ -7,6 +7,7 @@ import { useAppStore } from '@/store/modules/app'
 import LoginHeader from '../components/header.vue'
 import sliderCaptchaVue from './slider-captcha.vue'
 import qqLogin from './qq-login.vue'
+import WeixinLogin from './weixin-login.vue'
 import { validateUsername, validatePassword } from '../validate'
 import { LOGIN_TYPE_USERNAME } from '@/constants'
 
@@ -127,7 +128,7 @@ const onToReg = () => {
         <!-- QQ -->
         <qq-login />
         <!-- 微信 -->
-        <m-svg-icon class="w-4 cursor-pointer" name="wexin"></m-svg-icon>
+        <weixin-login />
       </div>
     </div>
 

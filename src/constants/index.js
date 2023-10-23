@@ -51,3 +51,4 @@ export const BUCKET = 'imooc-front'
 // 登陆方式
 export const LOGIN_TYPE_OAUTH_NO_REGISTER_CODE = 204
 export const LOGIN_TYPE_QQ = 'QQ'
+export const LOGIN_TYPE_WX = 'WX'
