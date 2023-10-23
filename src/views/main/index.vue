@@ -25,8 +25,14 @@ const onVipClick = () => {
 }
 
 const onMyClick = () => {
+  console.log(1)
   changeRouterType('push')
-  router.push('/profile')
+  if (token.value) {
+    router.push('/profile')
+  } else {
+    console.log(2)
+    router.push('/login')
+  }
 }
 
 /**

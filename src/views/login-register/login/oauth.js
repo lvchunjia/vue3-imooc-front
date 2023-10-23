@@ -1,4 +1,4 @@
-import router from 'vue-router'
+import router from '@/router'
 import { useUserStore } from '@/store/modules/user'
 import { message } from '@/libs'
 import { LOGIN_TYPE_OAUTH_NO_REGISTER_CODE } from '@/constants'
