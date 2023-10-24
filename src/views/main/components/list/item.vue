@@ -4,6 +4,7 @@ import { useElementBounding, useFullscreen } from '@vueuse/core'
 import { saveAs } from 'file-saver'
 import { message } from '@/libs'
 import { randomRGB } from '@/utils/color'
+import { weiboShare } from '@/utils/share'
 
 const props = defineProps({
   data: {
@@ -72,6 +73,13 @@ const imgContainerCenter = () => {
     translateY: parseInt(imgContainerY + imgContainerHeight / 2)
   }
 }
+
+/**
+ * 分享按钮点击处理
+ */
+const onShareClick = () => {
+  weiboShare(props.data.photo, `https://imooc-front.lgdsunday.club/pins/${props.data.id}`)
+}
 </script>
 
 <template>
@@ -99,7 +107,7 @@ const imgContainerCenter = () => {
         class="hidden opacity-0 w-full h-full bg-zinc-900/50 absolute top-0 left-0 rounded duration-300 group-hover:opacity-100 xl:block"
       >
         <!-- 分享 -->
-        <m-button class="absolute top-1.5 left-1.5">分享</m-button>
+        <m-button @click="onShareClick" class="absolute top-1.5 left-1.5">分享</m-button>
 
         <!-- 点赞 -->
         <m-button
