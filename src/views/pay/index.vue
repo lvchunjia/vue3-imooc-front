@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import useUserStore from '@/store/user'
+import { useUserStore } from '@/store/modules/user'
 import { getPayResult } from '@/api/pay'
 
 const route = useRoute()
