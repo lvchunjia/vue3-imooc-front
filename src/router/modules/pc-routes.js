@@ -41,5 +41,13 @@ export default [
     path: '/register',
     name: 'register',
     component: () => import('@/views/login-register/register/index.vue')
+  },
+  {
+    path: '/pay/result',
+    name: 'payResult',
+    component: () => import('@/views/pay/index.vue'),
+    meta: {
+      user: true
+    }
   }
 ]

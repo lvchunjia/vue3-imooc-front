@@ -64,7 +64,7 @@ const onChangeCurrentPay = (item) => {
         <p class="mt-1 text-sm text-zinc-500">{{ currentPayData.desc }}</p>
 
         <!-- 支付 -->
-        <pay-ment />
+        <pay-ment :pay-data="currentPayData" />
       </div>
     </div>
   </div>

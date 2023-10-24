@@ -1,5 +1,17 @@
 <script setup>
 import discountsVue from '../discounts.vue'
+import { alipay } from '@/utils/pay'
+
+const props = defineProps({
+  payData: {
+    required: true,
+    type: Object
+  }
+})
+
+const onAliPayClick = () => {
+  alipay(props.payData.title, props.payData.desc)
+}
 </script>
 
 <template>
@@ -19,6 +31,7 @@ import discountsVue from '../discounts.vue'
       <div class="flex mt-3">
         <!-- 支付宝支付 -->
         <div
+          @click="onAliPayClick"
           class="border border-zinc-200 dark:border-zinc-600 rounded-sm w-[220px] h-[60px] flex items-center pl-2 cursor-pointer duration-200 hover:bg-zinc-50 hover:dark:bg-zinc-800"
         >
           <img class="w-4 h-4" src="@/assets/images/alipay.png" alt="" />
